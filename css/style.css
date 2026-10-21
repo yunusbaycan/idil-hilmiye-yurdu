@@ -165,33 +165,25 @@ p { margin: 0 0 1em; }
 .feature h3 { margin-bottom: .4em; }
 .feature p { color: var(--muted); font-size: .98rem; margin: 0; }
 
-/* ---------- Yurt yaşamı ---------- */
-.life-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-.timeline { list-style: none; margin: 0; padding: 0; position: relative; }
-.timeline::before { content: ""; position: absolute; left: 62px; top: 8px; bottom: 8px; width: 1.5px; background: var(--line); }
-.timeline li { display: grid; grid-template-columns: 52px 1fr; gap: 26px; padding: 10px 0; position: relative; }
-.timeline li::after { content: ""; position: absolute; left: 57px; top: 19px; width: 10px; height: 10px; background: var(--gold-bright); transform: rotate(45deg); }
-.timeline time { font-family: var(--font-display); font-weight: 600; color: var(--gold); padding-top: 2px; font-variant-numeric: tabular-nums; }
-.timeline strong { display: block; }
-.timeline div { color: var(--muted); font-size: .97rem; }
-.timeline div strong { color: var(--ink); font-size: 1.02rem; }
-.life-photo { margin: 0; position: sticky; top: 100px; }
-.life-photo figcaption { margin-top: 12px; color: var(--muted); font-size: .95rem; }
-
+/* ---------- Fotoğraf büyütme ---------- */
 .zoomable { display: block; width: 100%; padding: 0; border: 0; font: inherit; color: inherit; background: none; cursor: zoom-in; border-radius: var(--radius); overflow: hidden; position: relative; }
 .zoomable img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .5s ease; }
 .zoomable:hover img { transform: scale(1.04); }
+.zoomable picture { display: block; }
 
 /* ---------- Galeri ---------- */
 .gallery { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.gallery-label { position: absolute; left: 14px; bottom: 14px; padding: 6px 14px; border-radius: 999px; background: rgba(21,22,27,.72); color: #fff; font-size: .9rem; font-weight: 600; }
-.gallery-empty {
-  aspect-ratio: 4 / 3; border-radius: var(--radius);
-  border: 1.5px dashed var(--gold-bright); background: rgba(255,255,255,.55);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center;
+.gallery li { display: flex; }
+.gallery .zoomable { background: var(--line); box-shadow: 0 6px 18px -14px rgba(60, 44, 10, .5); }
+.gallery .zoomable::after { /* etiketin okunması için alt gölge */
+  content: ""; position: absolute; inset: 55% 0 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(15,16,20,.55), transparent);
 }
-.gallery-empty span { font-family: var(--font-display); font-weight: 600; color: var(--gold); }
-.gallery-empty small { color: var(--muted); }
+.gallery-label { position: absolute; left: 14px; bottom: 14px; z-index: 1; padding: 6px 14px; border-radius: 999px; background: rgba(21,22,27,.72); color: #fff; font-size: .9rem; font-weight: 600; }
+.gallery-feature { grid-column: span 2; grid-row: span 2; }
+.gallery-feature .zoomable, .gallery-feature picture { height: 100%; }
+.gallery-feature img { height: 100%; aspect-ratio: auto; }
+.gallery-feature .gallery-label { left: 20px; bottom: 20px; padding: 8px 18px; font-size: 1rem; }
 
 /* ---------- Kayıt ---------- */
 .steps { list-style: none; padding: 0; margin: 0 0 32px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; counter-reset: s; }
@@ -267,11 +259,24 @@ p { margin: 0 0 1em; }
 .wa-float:hover { transform: scale(1.06); color: #fff; }
 .wa-float svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-.lightbox { border: 0; padding: 0; background: transparent; max-width: min(1100px, 94vw); }
-.lightbox::backdrop { background: rgba(10,10,12,.88); }
+.lightbox { border: 0; padding: 0; background: transparent; max-width: min(1100px, 94vw); overflow: visible; }
+.lightbox::backdrop { background: rgba(10,10,12,.9); }
+.lightbox-figure { margin: 0; touch-action: pan-y; }
 .lightbox img { max-height: 82vh; width: auto; margin: 0 auto; border-radius: 10px; }
 .lightbox-caption { color: #EDE6D6; text-align: center; margin: 12px 0 0; }
+.lightbox-count { color: var(--gold-soft); font-variant-numeric: tabular-nums; margin-left: 6px; }
 .lightbox-close { position: fixed; top: 16px; right: 16px; width: 48px; height: 48px; border-radius: 50%; border: 0; background: #fff; color: var(--ink); font-size: 1.8rem; line-height: 1; cursor: pointer; }
+.lightbox-nav {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25);
+  background: rgba(21,22,27,.7); color: #fff; cursor: pointer;
+  display: grid; place-items: center; transition: background-color .2s;
+}
+.lightbox-nav:hover { background: rgba(133,98,27,.9); }
+.lightbox-nav svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.lightbox-prev { left: 16px; }
+.lightbox-next { right: 16px; }
+.lightbox-nav[hidden] { display: none; }
 
 /* ---------- Duyarlı (mobil) ---------- */
 @media (max-width: 1080px) {
@@ -290,17 +295,19 @@ p { margin: 0 0 1em; }
   .main-nav.open { display: flex; }
   .main-nav ul { flex-direction: column; }
   .main-nav ul a { padding: 12px; }
-  .hero-grid, .about-grid, .life-grid, .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+  .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 36px; }
   .hero-visual { order: -1; }
   .hero-medallion { width: min(300px, 80%); }
-  .life-photo { position: static; }
   .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery-feature { grid-column: auto; grid-row: auto; }
+  .gallery-feature img { aspect-ratio: 4 / 3; }
   .docs ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stats li:nth-child(3) { border-left: 0; }
   .stats li:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .lightbox-nav { top: auto; bottom: 20px; transform: none; }
   .features, .steps, .gallery, .docs ul, .contact-list { grid-template-columns: 1fr; }
   .brand-sub { display: none; }
   .footer-grid { grid-template-columns: 1fr; }

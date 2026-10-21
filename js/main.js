@@ -41,20 +41,55 @@ if ("IntersectionObserver" in window) {
   sections.forEach((s) => io.observe(s));
 }
 
-// Fotoğraf büyütme
+// Fotoğraf büyütme: galeri içinde ileri/geri, ok tuşları ve kaydırma
 const box = document.getElementById("lightbox");
 const boxImg = box.querySelector("img");
-const boxCap = box.querySelector(".lightbox-caption");
+const boxText = box.querySelector(".lightbox-text");
+const boxCount = box.querySelector(".lightbox-count");
+const prevBtn = box.querySelector(".lightbox-prev");
+const nextBtn = box.querySelector(".lightbox-next");
+let group = [];
+let index = 0;
+
+const show = (i) => {
+  index = (i + group.length) % group.length;
+  const btn = group[index];
+  boxImg.src = btn.dataset.full;
+  boxImg.alt = btn.querySelector("img").alt;
+  boxText.textContent = btn.dataset.caption || "";
+  boxCount.textContent = group.length > 1 ? `${index + 1} / ${group.length}` : "";
+  // Sonraki fotoğrafı önceden yükle
+  if (group.length > 1) new Image().src = group[(index + 1) % group.length].dataset.full;
+};
+
 document.querySelectorAll(".zoomable").forEach((btn) => {
   btn.addEventListener("click", () => {
-    boxImg.src = btn.dataset.full;
-    boxImg.alt = btn.querySelector("img").alt;
-    boxCap.textContent = btn.dataset.caption || "";
+    const gallery = btn.closest(".gallery");
+    group = gallery ? [...gallery.querySelectorAll(".zoomable")] : [btn];
+    prevBtn.hidden = nextBtn.hidden = group.length < 2;
+    show(group.indexOf(btn));
     box.showModal();
   });
 });
+prevBtn.addEventListener("click", () => show(index - 1));
+nextBtn.addEventListener("click", () => show(index + 1));
 box.querySelector(".lightbox-close").addEventListener("click", () => box.close());
 box.addEventListener("click", (e) => { if (e.target === box) box.close(); });
+box.addEventListener("keydown", (e) => {
+  if (group.length < 2) return;
+  if (e.key === "ArrowLeft") show(index - 1);
+  if (e.key === "ArrowRight") show(index + 1);
+});
+let touchX = null;
+box.addEventListener("touchstart", (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+box.addEventListener("touchend", (e) => {
+  if (touchX === null || group.length < 2) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+  touchX = null;
+});
+// Kapanınca odak, açan fotoğrafa geri döner (dialog bunu kendisi yapar); büyük görseli bırak
+box.addEventListener("close", () => { boxImg.removeAttribute("src"); });
 
 // İletişim formu: bilgileri saklamadan WhatsApp mesajı oluşturur
 const form = document.getElementById("wa-form");
