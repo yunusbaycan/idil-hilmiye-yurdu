@@ -19,8 +19,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Source+Sans+3:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Açılış animasyonu yalnızca ilk ziyarette ve hareket azaltma kapalıysa gösterilir
+    try {
+      if (!localStorage.getItem("ih-intro") && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("intro");
+        localStorage.setItem("ih-intro", "1");
+      }
+    } catch (e) {}
+  </script>
 </head>
 <body>
+  <div class="intro-screen" aria-hidden="true">
+    <img src="assets/logo.svg" alt="" width="180" height="180">
+  </div>
   <a class="skip-link" href="#icerik">İçeriğe geç</a>
 
   <!-- ========== ÜST MENÜ ========== -->
@@ -36,6 +48,7 @@
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="ana-menu" aria-label="Menüyü aç">
         <span></span><span></span><span></span>
       </button>
+      <span class="scroll-progress" aria-hidden="true"></span>
       <nav class="main-nav" id="ana-menu" aria-label="Ana menü">
         <ul>
           <li><a href="#hakkimizda">Hakkımızda</a></li>
@@ -45,7 +58,7 @@
           <li><a href="#sss">SSS</a></li>
           <li><a href="#iletisim">İletişim</a></li>
         </ul>
-        <a class="btn btn-gold btn-sm" href="#kayit">Ön Kayıt</a>
+        <a class="btn btn-gold btn-sm" href="#on-kayit">Ön Kayıt</a>
       </nav>
     </div>
   </header>
@@ -70,20 +83,30 @@
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="hero-medallion">
+            <span class="hero-ring"></span>
             <img src="assets/logo.svg" alt="" width="440" height="440">
+            <span class="sparkle s1"></span><span class="sparkle s2"></span><span class="sparkle s3"></span><span class="sparkle s4"></span>
           </div>
         </div>
       </div>
 
       <div class="container">
         <ul class="stats" aria-label="Öne çıkan bilgiler">
-          <li><strong>120</strong><span>Öğrenci kapasitesi</span></li>
+          <li><strong data-count="120">120</strong><span>Öğrenci kapasitesi</span></li>
           <li><strong>7/24</strong><span>Belletmen gözetimi</span></li>
-          <li><strong>3 Öğün</strong><span>Sağlıklı beslenme</span></li>
+          <li><strong data-count="3" data-suffix=" Öğün">3 Öğün</strong><span>Sağlıklı beslenme</span></li>
           <li><strong>Her Gün</strong><span>Rehberli etüt</span></li>
         </ul>
       </div>
     </section>
+
+    <!-- ========== KAYAN BANT ========== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <ul><li>Güvenli Ortam</li><li>Rehberli Etüt</li><li>Bilgisayar Laboratuvarı</li><li>Okuma Köşesi</li><li>Sağlıklı Beslenme</li><li>Oyun Salonu</li><li>Manevi Değerler</li><li>Veli İletişimi</li></ul>
+        <ul><li>Güvenli Ortam</li><li>Rehberli Etüt</li><li>Bilgisayar Laboratuvarı</li><li>Okuma Köşesi</li><li>Sağlıklı Beslenme</li><li>Oyun Salonu</li><li>Manevi Değerler</li><li>Veli İletişimi</li></ul>
+      </div>
+    </div>
 
     <!-- ========== HAKKIMIZDA ========== -->
     <section class="section" id="hakkimizda">
@@ -101,6 +124,17 @@
             <li><span class="values-mark" aria-hidden="true"></span><div><strong>Değerler</strong>Güzel ahlak, saygı ve kardeşlik ruhu.</div></li>
           </ul>
         </div>
+      </div>
+    </section>
+
+    <!-- ========== ALINTI ========== -->
+    <section class="quote-band" aria-label="Değerlerimiz">
+      <div class="container narrow">
+        <svg class="ornament" viewBox="0 0 240 24" aria-hidden="true"><path pathLength="1" d="M4 12H94"/><path pathLength="1" d="M146 12H236"/><path pathLength="1" d="M100 12l4-4 4 4-4 4z"/><path pathLength="1" d="M132 12l4-4 4 4-4 4z"/><path pathLength="1" d="M113 5h14v14h-14z"/><path pathLength="1" d="M120 2.1l9.9 9.9-9.9 9.9-9.9-9.9z"/></svg>
+        <blockquote class="big-quote">
+          <p>Hiçbir baba, evladına güzel terbiyeden daha üstün bir hediye vermemiştir.</p>
+          <footer>Hadis-i Şerif · <cite>Tirmizî</cite></footer>
+        </blockquote>
       </div>
     </section>
 
@@ -154,6 +188,20 @@
             <p>Ergenlik dönemine özel birebir ilgi; öğrencinin kendini ifade edebildiği güven ortamı.</p>
           </li>
         </ul>
+      </div>
+    </section>
+
+    <!-- ========== PARALAKS: YEMEKHANE ========== -->
+    <section class="parallax" aria-label="Yemekhane">
+      <picture class="parallax-media">
+        <source type="image/webp" srcset="assets/img/yemekhane-800.webp 800w, assets/img/yemekhane.webp 1600w" sizes="100vw">
+        <img src="assets/img/yemekhane.jpg" srcset="assets/img/yemekhane-800.jpg 800w, assets/img/yemekhane.jpg 1600w" sizes="100vw" alt="" width="1600" height="1200" loading="lazy" decoding="async">
+      </picture>
+      <div class="container parallax-content">
+        <svg class="ornament" viewBox="0 0 240 24" aria-hidden="true"><path pathLength="1" d="M4 12H94"/><path pathLength="1" d="M146 12H236"/><path pathLength="1" d="M100 12l4-4 4 4-4 4z"/><path pathLength="1" d="M132 12l4-4 4 4-4 4z"/><path pathLength="1" d="M113 5h14v14h-14z"/><path pathLength="1" d="M120 2.1l9.9 9.9-9.9 9.9-9.9-9.9z"/></svg>
+        <p class="parallax-eyebrow">Yemekhane</p>
+        <p class="parallax-text">Her akşam, aile sofrası sıcaklığında.</p>
+        <a class="btn btn-light" href="#galeri">Yaşam Alanlarını Gezin</a>
       </div>
     </section>
 
@@ -278,8 +326,73 @@
       </div>
     </section>
 
+    <!-- ========== PARALAKS: OKUMA KÖŞESİ ========== -->
+    <section class="parallax" aria-label="Okuma köşesi">
+      <picture class="parallax-media">
+        <source type="image/webp" srcset="assets/img/okuma-kosesi-1-800.webp 800w, assets/img/okuma-kosesi-1.webp 1600w" sizes="100vw">
+        <img src="assets/img/okuma-kosesi-1.jpg" srcset="assets/img/okuma-kosesi-1-800.jpg 800w, assets/img/okuma-kosesi-1.jpg 1600w" sizes="100vw" alt="" width="1600" height="1200" loading="lazy" decoding="async">
+      </picture>
+      <div class="container parallax-content">
+        <svg class="ornament" viewBox="0 0 240 24" aria-hidden="true"><path pathLength="1" d="M4 12H94"/><path pathLength="1" d="M146 12H236"/><path pathLength="1" d="M100 12l4-4 4 4-4 4z"/><path pathLength="1" d="M132 12l4-4 4 4-4 4z"/><path pathLength="1" d="M113 5h14v14h-14z"/><path pathLength="1" d="M120 2.1l9.9 9.9-9.9 9.9-9.9-9.9z"/></svg>
+        <p class="parallax-eyebrow">Okuma Köşesi</p>
+        <p class="parallax-text">Okuyan, düşünen, değerleriyle yükselen nesiller.</p>
+        <a class="btn btn-light" href="#kayit">Kayıt Sürecini İnceleyin</a>
+      </div>
+    </section>
+
+    <!-- ========== VELİ GÖRÜŞLERİ ========== -->
+    <!-- ÖRNEK METİNLER: yayından önce gerçek veli görüşleriyle değiştirin ve .sample-note satırını silin -->
+    <section class="section section-tint" id="veli-gorusleri">
+      <div class="container">
+        <div class="section-head section-head-center">
+          <p class="eyebrow">Veli Görüşleri</p>
+          <h2>Ailelerimiz ne diyor?</h2>
+          <p class="sample-note">Örnek görüşler — yayından önce gerçek veli görüşleriyle değiştirilecektir.</p>
+        </div>
+        <div class="t-slider" role="region" aria-roledescription="kaydırıcı" aria-label="Veli görüşleri">
+          <ul class="t-track" tabindex="0">
+          <li class="t-card">
+            <blockquote>
+              <p>Oğlumuzu ilk kez evden uzağa gönderirken çok tedirgindik. Belletmen hocalarımızın düzenli bilgilendirmesi sayesinde içimiz rahat.</p>
+              <footer><span class="t-avatar" aria-hidden="true">MY</span><span><strong>M. Y.</strong>6. sınıf velisi</span></footer>
+            </blockquote>
+          </li>
+          <li class="t-card">
+            <blockquote>
+              <p>Etüt düzeni sayesinde düzenli ders çalışmayı öğrendi; karnesindeki değişimi hep birlikte gördük.</p>
+              <footer><span class="t-avatar" aria-hidden="true">SA</span><span><strong>S. A.</strong>8. sınıf velisi</span></footer>
+            </blockquote>
+          </li>
+          <li class="t-card">
+            <blockquote>
+              <p>Yemekler ev yemeği tadında, ortam tertemiz. Hafta sonu ziyaretlerimizde bunu her seferinde görüyoruz.</p>
+              <footer><span class="t-avatar" aria-hidden="true">HK</span><span><strong>H. K.</strong>5. sınıf velisi</span></footer>
+            </blockquote>
+          </li>
+          <li class="t-card">
+            <blockquote>
+              <p>Sadece derslerinde değil; saygı, sorumluluk ve arkadaşlık konusunda da çok gelişti.</p>
+              <footer><span class="t-avatar" aria-hidden="true">FD</span><span><strong>F. D.</strong>7. sınıf velisi</span></footer>
+            </blockquote>
+          </li>
+          <li class="t-card">
+            <blockquote>
+              <p>Sorularımıza her zaman hızlı ve samimi dönüş aldık. Kendimizi yurdun bir parçası gibi hissediyoruz.</p>
+              <footer><span class="t-avatar" aria-hidden="true">EÖ</span><span><strong>E. Ö.</strong>6. sınıf velisi</span></footer>
+            </blockquote>
+          </li>
+          </ul>
+          <div class="t-controls">
+            <button type="button" class="t-btn t-prev" aria-label="Önceki görüş"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <div class="t-dots"></div>
+            <button type="button" class="t-btn t-next" aria-label="Sonraki görüş"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ========== KAYIT ========== -->
-    <section class="section section-tint" id="kayit">
+    <section class="section" id="kayit">
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">Kayıt</p>
@@ -303,11 +416,12 @@
             <li>İkametgâh belgesi</li>
           </ul>
         </div>
+        <p class="kayit-cta"><a class="btn btn-gold" href="#on-kayit">Ön Kayıt Formunu Doldurun</a></p>
       </div>
     </section>
 
     <!-- ========== SSS ========== -->
-    <section class="section" id="sss">
+    <section class="section section-tint" id="sss">
       <div class="container narrow">
         <div class="section-head">
           <p class="eyebrow">Sıkça Sorulan Sorular</p>
@@ -375,24 +489,56 @@
           </div>
         </div>
 
-        <form class="contact-form" id="wa-form" novalidate>
-          <h3>WhatsApp ile mesaj gönderin</h3>
-          <p class="form-note">Form bilgileriniz sitemizde saklanmaz; mesajınız doğrudan WhatsApp'ta açılır.</p>
-          <label for="f-ad">Veli adı soyadı</label>
-          <input id="f-ad" name="ad" type="text" autocomplete="name" required>
-          <label for="f-sinif">Öğrencinin sınıfı</label>
-          <select id="f-sinif" name="sinif">
-            <option value="">Seçiniz</option>
-            <option>5. sınıf</option>
-            <option>6. sınıf</option>
-            <option>7. sınıf</option>
-            <option>8. sınıf</option>
-          </select>
-          <label for="f-mesaj">Mesajınız</label>
-          <textarea id="f-mesaj" name="mesaj" rows="4" required></textarea>
-          <p class="form-error" id="f-error" role="alert" hidden>Lütfen adınızı ve mesajınızı yazın.</p>
-          <button class="btn btn-gold" type="submit">WhatsApp'ta Gönder</button>
-          <p class="form-kvkk">Göndererek <a href="kvkk.html">KVKK Aydınlatma Metni</a>'ni okuduğunuzu kabul edersiniz.</p>
+        <form class="contact-form wizard" id="wa-form" novalidate>
+          <span id="on-kayit" class="anchor" aria-hidden="true"></span>
+          <h3>Ön Kayıt Başvurusu</h3>
+          <p class="form-note">Üç kısa adım. Bilgileriniz sitemizde saklanmaz; başvurunuz WhatsApp mesajı olarak hazırlanır.</p>
+          <ol class="wz-steps" aria-hidden="true">
+            <li class="active"><span>1</span>Veli</li>
+            <li><span>2</span>Öğrenci</li>
+            <li><span>3</span>Mesaj</li>
+          </ol>
+          <div class="wz-bar" aria-hidden="true"><span></span></div>
+          <p class="sr-only" id="wz-status" aria-live="polite"></p>
+
+          <fieldset class="wz-panel" data-step="1">
+            <legend>Veli bilgileri</legend>
+            <label for="f-ad">Veli adı soyadı</label>
+            <input id="f-ad" name="ad" type="text" autocomplete="name" required>
+            <span class="wz-label" id="donus-label">Size nasıl dönüş yapalım?</span>
+            <div class="wz-choices" role="radiogroup" aria-labelledby="donus-label">
+              <label class="wz-choice"><input type="radio" name="donus" value="WhatsApp mesajı" checked><span>WhatsApp mesajı</span></label>
+              <label class="wz-choice"><input type="radio" name="donus" value="Telefonla arama"><span>Telefonla arama</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="wz-panel" data-step="2" hidden>
+            <legend>Öğrenci bilgileri</legend>
+            <label for="f-sinif">Öğrencinin sınıfı</label>
+            <select id="f-sinif" name="sinif" required>
+              <option value="">Seçiniz</option>
+              <option>5. sınıf</option>
+              <option>6. sınıf</option>
+              <option>7. sınıf</option>
+              <option>8. sınıf</option>
+            </select>
+            <label for="f-okul">Devam ettiği okul <small>(isteğe bağlı)</small></label>
+            <input id="f-okul" name="okul" type="text" autocomplete="off">
+          </fieldset>
+
+          <fieldset class="wz-panel" data-step="3" hidden>
+            <legend>Mesajınız</legend>
+            <label for="f-mesaj">Eklemek istedikleriniz <small>(isteğe bağlı)</small></label>
+            <textarea id="f-mesaj" name="mesaj" rows="4"></textarea>
+            <label class="wz-check"><input type="checkbox" name="kvkk" id="f-kvkk" required><span><a href="kvkk.html" target="_blank" rel="noopener">KVKK Aydınlatma Metni</a>'ni okudum, bilgilerimin başvurum için kullanılmasını onaylıyorum.</span></label>
+          </fieldset>
+
+          <p class="form-error" id="f-error" role="alert" hidden></p>
+          <div class="wz-actions">
+            <button type="button" class="btn btn-ghost wz-back" hidden>Geri</button>
+            <button type="button" class="btn btn-gold wz-next">Devam</button>
+            <button type="submit" class="btn btn-gold wz-submit" hidden>WhatsApp'ta Gönder</button>
+          </div>
         </form>
       </div>
     </section>
@@ -420,6 +566,10 @@
 
   <a class="wa-float" data-wa href="https://wa.me/905320000000" target="_blank" rel="noopener" aria-label="WhatsApp ile yazın">
     <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/><path d="M9 9.5c.3 2 2 3.8 4 4.5l1.2-1.1 1.8.8"/></svg>
+  </a>
+
+  <a class="to-top" href="#ust" aria-label="Sayfanın başına dön">
+    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
   </a>
 
   <dialog class="lightbox" id="lightbox" aria-label="Fotoğraf görüntüleyici">
