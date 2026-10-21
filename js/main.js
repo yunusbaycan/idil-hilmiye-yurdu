@@ -340,3 +340,26 @@ if (!reduceMotion && window.matchMedia("(hover: hover) and (pointer: fine)").mat
     z.addEventListener("click", () => cursor.classList.remove("on"));
   });
 }
+
+// Açılış ekranı: sayfa çizildikten sonra başlar; dokunma, tıklama veya tuşla atlanabilir
+if (document.documentElement.classList.contains("intro")) {
+  const root = document.documentElement;
+  const screen = document.querySelector(".intro-screen");
+  const skip = () => root.classList.add("intro-skip");
+  screen.addEventListener("pointerdown", skip);
+  window.addEventListener("keydown", skip, { once: true });
+  // Ekran kapanınca katmanı tamamen kaldır (sonradan tetiklenen animasyon geri getiremesin)
+  screen.addEventListener("animationend", (e) => {
+    if (e.target !== screen || !["introOut", "introFallback"].includes(e.animationName)) return;
+    root.classList.remove("intro", "intro-go", "intro-skip");
+    window.removeEventListener("keydown", skip);
+  });
+  // Fontlar yüklenmeden başlarsa büyüme kısmı boş ekranda kaçırılır; çok geç kalırsa doğrudan atla
+  const go = () => {
+    if (!root.classList.contains("intro")) return;
+    if (performance.now() < 2500) root.classList.add("intro-go");
+    else skip();
+  };
+  const ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  ready.then(() => requestAnimationFrame(() => requestAnimationFrame(go)));
+}

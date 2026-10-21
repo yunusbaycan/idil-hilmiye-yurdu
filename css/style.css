@@ -545,21 +545,45 @@ p { margin: 0 0 1em; }
 .btn-ghost { background: transparent; color: #EDE6D6; border-color: #44454E; }
 .btn-ghost:hover { border-color: var(--gold-bright); color: #fff; }
 
-/* Açılış ekranı (yalnızca ilk ziyaret) */
+/* Açılış ekranı (yalnızca ilk ziyaret, toplam ~3 sn):
+   0–2 sn logo küçükten büyür · 1.7–2.5 sn ışık geçer · 2.4–3 sn ekran açılır */
 .intro-screen { display: none; }
 .intro .intro-screen {
+  --intro-size: min(240px, 62vw);
   display: grid; place-items: center; position: fixed; inset: 0; z-index: 300;
   background: radial-gradient(600px 400px at 50% 50%, #FFFDF6, var(--ivory));
-  animation: introOut .7s 1.5s cubic-bezier(.7,0,.3,1) forwards;
+  animation: introFallback .5s 4s ease forwards;
+  cursor: pointer;
 }
-.intro .intro-screen img { width: 180px; height: 180px; animation: introLogo 1.2s cubic-bezier(.2,.7,.2,1) both; filter: drop-shadow(0 18px 30px rgba(122,85,18,.3)); }
+.intro.intro-go .intro-screen { animation: introOut .6s 2.4s cubic-bezier(.7,0,.3,1) forwards; }
+.intro .intro-screen::before { /* logonun arkasında açılan altın hale */
+  content: ""; position: absolute; width: calc(var(--intro-size) * 1.9); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,214,120,.5), rgba(255,214,120,0) 62%);
+  opacity: 0;
+}
+.intro-go .intro-screen::before { animation: introGlow 2s cubic-bezier(.2,.7,.2,1) both; }
+.intro .intro-screen img {
+  position: relative; width: var(--intro-size); height: var(--intro-size);
+  filter: drop-shadow(0 18px 30px rgba(122,85,18,.3));
+  opacity: 0;
+}
+.intro-go .intro-screen img { animation: introLogo 2s linear both; }
 .intro .intro-screen::after { /* logonun üzerinden geçen ışık */
-  content: ""; position: absolute; width: 180px; height: 180px; border-radius: 50%;
-  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.75) 50%, transparent 65%) no-repeat;
-  background-size: 250% 100%; background-position: 150% 0; animation: introShine 1.1s .5s ease forwards;
+  content: ""; position: absolute; width: var(--intro-size); height: var(--intro-size); border-radius: 50%;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.8) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%; background-position: 150% 0;
 }
-@keyframes introLogo { from { opacity: 0; transform: scale(.82); } to { opacity: 1; transform: none; } }
+.intro-go .intro-screen::after { animation: introShine .8s 1.7s ease forwards; }
+.intro-skip .intro-screen { animation: introOut .35s ease forwards !important; }
+@keyframes introLogo { /* yumuşak, eşit hızda büyüme; sonda hafif taşıp yerine oturur */
+  0% { opacity: 0; transform: scale(.06); animation-timing-function: cubic-bezier(.4,.1,.35,1); }
+  15% { opacity: 1; }
+  78% { transform: scale(1.05); animation-timing-function: ease-in-out; }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes introGlow { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: none; } }
 @keyframes introShine { to { background-position: -150% 0; } }
+@keyframes introFallback { to { opacity: 0; visibility: hidden; } }
 @keyframes introOut { to { opacity: 0; visibility: hidden; transform: scale(1.04); } }
 
 /* Galeri imleci (yalnızca fareli cihazlar) */

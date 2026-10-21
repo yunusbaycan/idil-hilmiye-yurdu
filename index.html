@@ -22,9 +22,9 @@
   <script>
     // Açılış animasyonu yalnızca ilk ziyarette ve hareket azaltma kapalıysa gösterilir
     try {
-      if (!localStorage.getItem("ih-intro") && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (!localStorage.getItem("ih-intro-2") && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
         document.documentElement.classList.add("intro");
-        localStorage.setItem("ih-intro", "1");
+        localStorage.setItem("ih-intro-2", "1");
       }
     } catch (e) {}
   </script>
