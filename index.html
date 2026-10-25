@@ -12,7 +12,7 @@
 
   <meta property="og:title" content="Özel İdil Hilmiye Ortaokul Erkek Öğrenci Yurdu">
   <meta property="og:description" content="Eğitimde Tam İsabet — İdil, Şırnak">
-  <meta property="og:image" content="assets/logo.png">
+  <meta property="og:image" content="assets/img/dis-cephe-2.jpg">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,7 +67,11 @@
 
     <!-- ========== GİRİŞ ========== -->
     <section class="hero">
-      <div class="container hero-grid">
+      <picture class="hero-bg">
+        <source type="image/webp" srcset="assets/img/dis-cephe-2-800.webp 800w, assets/img/dis-cephe-2.webp 1600w" sizes="100vw">
+        <img src="assets/img/dis-cephe-2.jpg" srcset="assets/img/dis-cephe-2-800.jpg 800w, assets/img/dis-cephe-2.jpg 1600w" sizes="100vw" alt="Taş duvar ve yeşil çitle çevrili, bahçeli üç katlı yurt binası" width="1600" height="1200" fetchpriority="high" decoding="async">
+      </picture>
+      <div class="container hero-inner">
         <div class="hero-text">
           <p class="eyebrow">İdil · Şırnak</p>
           <h1>Evinden uzakta,<br>ailesinin güveninde.</h1>
@@ -77,16 +81,9 @@
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg>
               WhatsApp ile Bilgi Al
             </a>
-            <a class="btn btn-outline" href="#galeri">Yurdu Keşfedin</a>
+            <a class="btn btn-light" href="#galeri">Yurdu Keşfedin</a>
           </div>
           <p class="hero-slogan">Eğitimde Tam İsabet</p>
-        </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="hero-medallion">
-            <span class="hero-ring"></span>
-            <img src="assets/logo.svg" alt="" width="440" height="440">
-            <span class="sparkle s1"></span><span class="sparkle s2"></span><span class="sparkle s3"></span><span class="sparkle s4"></span>
-          </div>
         </div>
       </div>
 
@@ -211,14 +208,41 @@
         <div class="section-head">
           <p class="eyebrow">Galeri</p>
           <h2>Yurdumuzu yakından tanıyın</h2>
-          <p>Etüt sınıflarından bilgisayar laboratuvarına, yemekhaneden okuma köşesine; yaşam alanlarımızdan kareler.</p>
+          <p>Bahçesinden etüt sınıflarına, yemekhaneden okuma köşesine; yurdumuzun içinden ve dışından kareler.</p>
         </div>
         <ul class="gallery">
           <li class="gallery-feature">
+            <button type="button" class="zoomable" data-full="assets/img/dis-cephe-1.jpg" data-caption="Yurt binası ve bahçe duvarı">
+              <picture>
+                <source type="image/webp" srcset="assets/img/dis-cephe-1-800.webp 800w, assets/img/dis-cephe-1.webp 1600w" sizes="(max-width: 960px) 100vw, 780px">
+                <img src="assets/img/dis-cephe-1-800.jpg" srcset="assets/img/dis-cephe-1-800.jpg 800w, assets/img/dis-cephe-1.jpg 1600w" sizes="(max-width: 960px) 100vw, 780px" alt="Açık mavi gökyüzü altında, taş duvar ve yeşil çitle çevrili bahçeli üç katlı yurt binası" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+              <span class="gallery-label">Yurt Binamız</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="zoomable" data-full="assets/img/dis-cephe-gece.jpg" data-caption="Yurdumuzun gece görünümü">
+              <picture>
+                <source type="image/webp" srcset="assets/img/dis-cephe-gece-800.webp 800w, assets/img/dis-cephe-gece.webp 1600w" sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 390px">
+                <img src="assets/img/dis-cephe-gece-800.jpg" srcset="assets/img/dis-cephe-gece-800.jpg 800w, assets/img/dis-cephe-gece.jpg 1600w" sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 390px" alt="Gece aydınlatılmış yurt binası; bahçe duvarı boyunca mavi ışıklı aplikler" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+              <span class="gallery-label">Gece Görünümü</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="zoomable" data-full="assets/img/dis-cephe-2.jpg" data-caption="Bahçe ve kamelya">
+              <picture>
+                <source type="image/webp" srcset="assets/img/dis-cephe-2-800.webp 800w, assets/img/dis-cephe-2.webp 1600w" sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 390px">
+                <img src="assets/img/dis-cephe-2-800.jpg" srcset="assets/img/dis-cephe-2-800.jpg 800w, assets/img/dis-cephe-2.jpg 1600w" sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 390px" alt="Yurt bahçesindeki yeşil kamelya, genç ağaçlar ve çit ile binanın yan cephesi" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+              <span class="gallery-label">Bahçe</span>
+            </button>
+          </li>
+          <li>
             <button type="button" class="zoomable" data-full="assets/img/giris-salonu.jpg" data-caption="Karşılama salonu">
               <picture>
-                <source type="image/webp" srcset="assets/img/giris-salonu-800.webp 800w, assets/img/giris-salonu.webp 1600w" sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 780px">
-                <img src="assets/img/giris-salonu-800.jpg" srcset="assets/img/giris-salonu-800.jpg 800w, assets/img/giris-salonu.jpg 1600w" sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 780px" alt="Kırmızı halı, mavi minderli ahşap koltuklar ve manzara tablolarıyla döşenmiş yurt giriş salonu" width="1600" height="1200" loading="lazy" decoding="async">
+                <source type="image/webp" srcset="assets/img/giris-salonu-800.webp 800w, assets/img/giris-salonu.webp 1600w" sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 390px">
+                <img src="assets/img/giris-salonu-800.jpg" srcset="assets/img/giris-salonu-800.jpg 800w, assets/img/giris-salonu.jpg 1600w" sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 390px" alt="Kırmızı halı, mavi minderli ahşap koltuklar ve manzara tablolarıyla döşenmiş yurt giriş salonu" width="1600" height="1200" loading="lazy" decoding="async">
               </picture>
               <span class="gallery-label">Karşılama Salonu</span>
             </button>
