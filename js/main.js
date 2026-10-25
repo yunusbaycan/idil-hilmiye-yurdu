@@ -4,6 +4,8 @@
 const SITE = {
   whatsapp: "905320000000", // ülke koduyla, başında + ve 0 olmadan
   waMessage: "Merhaba, yurdunuz hakkında bilgi almak istiyorum.",
+  video: "", // tanıtım videosu, örn. "assets/video/tanitim.mp4"
+  tour: "",  // 360° sanal tur bağlantısı (Google Street View / Kuula vb. gömme adresi)
 };
 
 // Tüm WhatsApp bağlantılarını tek yerden ayarla
@@ -40,6 +42,39 @@ if ("IntersectionObserver" in window) {
   }, { rootMargin: "-45% 0px -50% 0px" });
   sections.forEach((s) => io.observe(s));
 }
+
+// Tanıtım videosu ve 360° tur: adres yoksa "yakında" bilgisi gösterilir
+const mediaBox = document.getElementById("media-modal");
+const mediaBody = mediaBox.querySelector(".media-body");
+document.querySelectorAll("[data-media]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const isVideo = btn.dataset.media === "video";
+    const src = isVideo ? SITE.video : SITE.tour;
+    mediaBody.replaceChildren();
+    if (src && isVideo) {
+      const v = Object.assign(document.createElement("video"), { src, controls: true, autoplay: true, playsInline: true });
+      mediaBody.append(v);
+    } else if (src) {
+      const f = Object.assign(document.createElement("iframe"), { src, title: "360° sanal tur", allowFullscreen: true, loading: "lazy" });
+      mediaBody.append(f);
+    } else {
+      const soon = document.createElement("div");
+      soon.className = "media-soon";
+      soon.innerHTML = `<strong>${isVideo ? "Tanıtım videomuz" : "360° sanal turumuz"} çok yakında</strong>
+        <p>Yurdumuzu yerinde görmek isterseniz WhatsApp'tan yazın, ziyaret saatinizi birlikte planlayalım.</p>`;
+      const wa = Object.assign(document.createElement("a"), {
+        className: "btn btn-wa", target: "_blank", rel: "noopener", textContent: "WhatsApp'tan Yazın",
+        href: `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(SITE.waMessage)}`,
+      });
+      soon.append(wa);
+      mediaBody.append(soon);
+    }
+    mediaBox.showModal();
+  });
+});
+mediaBox.querySelector(".lightbox-close").addEventListener("click", () => mediaBox.close());
+mediaBox.addEventListener("click", (e) => { if (e.target === mediaBox) mediaBox.close(); });
+mediaBox.addEventListener("close", () => mediaBody.replaceChildren()); // videoyu durdur
 
 // Fotoğraf büyütme: galeri içinde ileri/geri, ok tuşları ve kaydırma
 const box = document.getElementById("lightbox");
