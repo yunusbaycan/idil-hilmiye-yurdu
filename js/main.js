@@ -221,7 +221,7 @@ onScrollFx();
 
 // Kaydırınca beliren öğeler; aynı gruptakiler sırayla gelir
 if ("IntersectionObserver" in window && !reduceMotion) {
-  const groups = [".section-head", ".big-quote", ".parallax-text", ".t-slider", ".about-grid > div", ".values li", ".feature", ".gallery li", ".steps li", ".docs", ".faq details", ".contact-info", ".contact-form"];
+  const groups = [".section-head", ".big-quote", ".parallax-text", ".t-slider", ".about-grid > div", ".values li", ".feature", ".gallery li", ".steps li", ".docs", ".faq details", ".contact-info", ".contact-form", ".footer-brand"];
   const revealIo = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (!e.isIntersecting) return;

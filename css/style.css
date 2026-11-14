@@ -508,6 +508,23 @@ p { margin: 0 0 1em; }
 .steps li:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .steps li:hover .step-no { animation: pop .5s ease; }
 @keyframes pop { 50% { transform: scale(1.18); } }
+/* Kayıt adımları: kart gelince numara "tık" eder, ardından bir sonraki adıma altın çizgi uzar */
+.js .steps li.reveal.in .step-no { animation: pop .5s calc(var(--d, 0s) + .35s) ease both; }
+.js .steps li.reveal.in:hover .step-no { animation: pop .5s ease; }
+@media (min-width: 1081px) {
+  .steps li { position: relative; }
+  .steps li:not(:last-child)::after {
+    content: ""; position: absolute; top: 47px; left: 78px; right: -20px; height: 2px;
+    background: linear-gradient(90deg, var(--gold-bright), var(--gold-soft));
+    transform-origin: 0 50%; pointer-events: none;
+  }
+  .js .steps li.reveal::after { transform: scaleX(0); }
+  .js .steps li.reveal.in::after { transform: scaleX(1); transition: transform .7s calc(var(--d, 0s) + .55s) cubic-bezier(.6,.1,.2,1); }
+}
+/* Alt bilgideki slogan: görünür olunca altın alt çizgi soldan sağa çizilir */
+.footer-brand em { background: linear-gradient(var(--gold-bright), var(--gold-bright)) 0 100% / 100% 1.5px no-repeat; padding-bottom: 2px; }
+.js .footer-brand.reveal em { background-size: 0 1.5px; }
+.js .footer-brand.reveal.in em { background-size: 100% 1.5px; transition: background-size 1s .5s cubic-bezier(.6,.1,.2,1); }
 .gallery-label { transition: transform .3s ease, background-color .3s; }
 .gallery .zoomable:hover .gallery-label { transform: translateY(-4px); background: rgba(133,98,27,.92); }
 .stats li { transition: transform .25s; }
